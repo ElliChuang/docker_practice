@@ -1,0 +1,33 @@
+.title {
+  padding: 15px;
+}
+.content {
+  border: 1px solid gray;
+  max-width: 1200px;
+  height: 800px;
+  padding: 15px;
+}
+.message {
+  width: 200px;
+}
+.img {
+  width: 60px;
+  height: 60px;
+  background-position: center;
+  background-size: cover;
+}
+#submit {
+  border: 0;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 255, 0.661);
+  color: white;
+  cursor: pointer;
+  width: 60px;
+  height: 30px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+
+#submit:hover {
+  box-shadow: 2px 2px 5px rgba(33, 33, 33);
+}
