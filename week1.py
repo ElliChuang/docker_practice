@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect
+from flask import Flask, render_template, request, jsonify
 import boto3
 import os
 from dotenv import load_dotenv
@@ -6,6 +6,7 @@ from werkzeug.utils import secure_filename
 from mysql.connector import errorcode
 import mysql.connector 
 from DB import DB
+import datetime
 
 app = Flask(__name__, static_folder= "static", static_url_path = "/static")
 
@@ -33,9 +34,13 @@ def upload():
         img = request.files['file'] 
         if img and len(message) != 0:
             filename = secure_filename(img.filename)
+            now = datetime.datetime.now()
+            time = now.strftime("%m/%d/%Y, %H:%M:%S")
+            unique_filename = filename + "(" + time + ")"
+            print(unique_filename)
             # 圖片存 S3
-            s3.upload_fileobj(img, BUCKET_NAME, 'image/' + filename)
-            image_url = f'https://{CLOUDFRONT_PATH}/image/{filename}'
+            s3.upload_fileobj(img, BUCKET_NAME, 'image/' + unique_filename)
+            image_url = f'https://{CLOUDFRONT_PATH}/image/{unique_filename}'
             print(image_url)
             # 圖片 CDN 網址、留言存 RDS
             try:
@@ -60,7 +65,7 @@ def upload():
                 if DB.rds_get_connection().is_connected():
                     mycursor.close()
                     connection_object.close()
-                pass
+             
             
         else:
             return jsonify({
